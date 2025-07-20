@@ -1,73 +1,538 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selamat Datang</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>M-Paspor Web</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
-    body {
+    /* ======= Variables ======= */
+    :root {
+      --primary: #006cb8; /* M-Paspor blue */
+      --primary-dark: #005293;
+      --accent: #f5a623; /* orange accent */
+      --bg: #f7f9fc;
+      --text: #333;
+      --border: #e5e7eb;
+    }
+
+    * {
+      box-sizing: border-box;
       margin: 0;
+      padding: 0;
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #0099f7, #f11712);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
       height: 100vh;
-      text-align: center;
+      display: flex;
+      flex-direction: column;
       overflow: hidden;
     }
 
-    .container {
-      max-width: 600px;
-      padding: 30px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 2s ease;
+    /* ======= Header ======= */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    header img {
+      width: 32px;
+      height: 32px;
+    }
+    header h1 {
+      font-size: 18px;
+      font-weight: 500;
     }
 
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.2em;
+    /* ======= Main container ======= */
+    #main {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
     }
 
-    p {
-      font-size: 1.5em;
-      margin-top: 0;
+    /* ======= Bottom Navigation ======= */
+    nav {
+      height: 64px;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      display: flex;
+    }
+    nav button {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text);
+    }
+    nav button.active {
+      color: var(--primary);
+    }
+    nav button img {
+      width: 22px;
+      height: 22px;
+      margin-bottom: 4px;
+      filter: grayscale(100%) brightness(0);
+    }
+    nav button.active img {
+      filter: none;
     }
 
+    /* ======= Sections ======= */
+    section {
+      display: none;
+    }
+    section.active {
+      display: block;
+    }
+
+    /* ======= Auth ======= */
+    #auth-screen {
+      position: fixed;
+      inset: 0;
+      background: #fff;
+      z-index: 50;
+      padding: 32px 24px;
+      overflow-y: auto;
+    }
+    #auth-screen h2 {
+      text-align: center;
+      margin-bottom: 24px;
+      color: var(--primary);
+    }
+    .auth-toggle {
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 14px;
+    }
+    .auth-toggle span {
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    form.auth-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    form.auth-form input {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    form.auth-form button {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    /* ======= Registration Steps ======= */
+    .step {
+      display: none;
+    }
+    .step.active {
+      display: block;
+      animation: fadeIn 0.35s ease;
+    }
     @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .progress {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .progress div {
+      flex: 1;
+      height: 4px;
+      background: var(--border);
+      margin: 0 4px;
+      border-radius: 2px;
+    }
+    .progress div.active {
+      background: var(--primary);
     }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
+    .form-group {
+      margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
+    }
+    .form-group label {
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+    .form-group input, .form-group select {
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+    }
+    .btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 500;
+    }
+    .btn-secondary {
+      background: var(--primary-dark);
+    }
 
-      p {
-        font-size: 1.2em;
-      }
+    /* ======= Loading overlay ======= */
+    #loading {
+      position: fixed;
+      inset: 0;
+      backdrop-filter: blur(2px);
+      background: rgba(255,255,255,0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 6px solid var(--primary);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
 
-      .container {
-        padding: 20px;
-      }
+    /* ======= Countdown ======= */
+    .countdown {
+      font-size: 32px;
+      font-weight: 600;
+      text-align: center;
+      margin-top: 32px;
+      color: var(--accent);
+    }
+
+    /* ======= Responsive Adjustments ======= */
+    @media (min-width: 480px) {
+      body { width: 480px; margin: 0 auto; border:1px solid #ddd; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Selamat Datang</h1>
-    <p>Dan Selamat Menikmati</p>
+  <!-- Loading Overlay -->
+  <div id="loading"><div class="spinner"></div></div>
+
+  <!-- Auth Screen -->
+  <div id="auth-screen">
+    <h2>M-Paspor</h2>
+
+    <div class="auth-toggle">Belum punya akun? <span id="to-register">Daftar</span></div>
+
+    <form id="login-form" class="auth-form">
+      <input type="email" id="login-email" placeholder="Email" required />
+      <input type="password" id="login-password" placeholder="Password" required />
+      <button type="submit">Masuk</button>
+    </form>
+
+    <form id="register-form" class="auth-form" style="display:none;">
+      <input type="email" id="register-email" placeholder="Email" required />
+      <input type="password" id="register-password" placeholder="Password" required />
+      <button type="submit">Daftar</button>
+    </form>
   </div>
+
+  <!-- Header -->
+  <header>
+    <img src="https://via.placeholder.com/32x32" alt="Logo" />
+    <h1 id="header-title">Beranda</h1>
+  </header>
+
+  <!-- Main Content -->
+  <div id="main">
+    <!-- Home Section -->
+    <section id="home" class="active">
+      <h3>Selamat datang di layanan pendaftaran paspor online.</h3>
+    </section>
+
+    <!-- Register Section -->
+    <section id="register">
+      <div class="progress" id="step-progress">
+        <div class="active"></div><div></div><div></div>
+      </div>
+
+      <div id="step-1" class="step active">
+        <h3>Data Pribadi</h3>
+        <div class="form-group">
+          <label>Nama Lengkap</label>
+          <input type="text" id="full-name" required />
+        </div>
+        <div class="form-group">
+          <label>NIK</label>
+          <input type="text" id="nik" required />
+        </div>
+        <button class="btn" id="next-1">Berikutnya</button>
+      </div>
+
+      <div id="step-2" class="step">
+        <h3>Detail Paspor</h3>
+        <div class="form-group">
+          <label>Jenis Paspor</label>
+          <select id="passport-type">
+            <option>E-Paspor 48H</option>
+            <option>Paspor Biasa 48H</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Kantor Imigrasi</label>
+          <select id="office">
+            <option>Jakarta Selatan</option>
+            <option>Jakarta Pusat</option>
+            <option>Bandung</option>
+          </select>
+        </div>
+        <button class="btn" id="next-2">Berikutnya</button>
+      </div>
+
+      <div id="step-3" class="step">
+        <h3>Tinjau &amp; Kirim</h3>
+        <p>Pastikan data sudah benar sebelum mengirim.</p>
+        <button class="btn" id="submit-registration">Kirim Pendaftaran</button>
+      </div>
+
+      <div id="confirmation" class="step">
+        <h3>Pendaftaran Berhasil!</h3>
+        <p>Silakan lakukan pembayaran sebelum:</p>
+        <div class="countdown" id="countdown"></div>
+      </div>
+    </section>
+
+    <!-- History Section -->
+    <section id="history">
+      <h3>Riwayat Pendaftaran</h3>
+      <ul id="history-list"></ul>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile">
+      <h3>Profil Pengguna</h3>
+      <p>Email: <span id="user-email"></span></p>
+      <button class="btn-secondary btn" id="logout">Keluar</button>
+    </section>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <nav>
+    <button class="active" data-target="home"><img src="https://via.placeholder.com/24" alt="Home"/>Beranda</button>
+    <button data-target="register"><img src="https://via.placeholder.com/24" alt="Register"/>Daftar</button>
+    <button data-target="history"><img src="https://via.placeholder.com/24" alt="History"/>Riwayat</button>
+    <button data-target="profile"><img src="https://via.placeholder.com/24" alt="Profile"/>Profil</button>
+  </nav>
+
+  <!-- Firebase & App Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <script>
+    /* ================= Firebase Init ================= */
+    const firebaseConfig = {
+      apiKey: "AIzaSyB--kgqoGqgZ2TUGuZkeNjHYNePRfcrB5w",
+      authDomain: "mtransfer-tl.firebaseapp.com",
+      projectId: "mtransfer-tl",
+      storageBucket: "mtransfer-tl.firebasestorage.app",
+      messagingSenderId: "193702793032",
+      appId: "1:193702793032:web:f3a3f11b6232a35aceed7d",
+      measurementId: "G-0YXS6YTYRR"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    /* ================= UI Helpers ================= */
+    const showLoading = (state=true) => {
+      document.getElementById('loading').style.display = state ? 'flex' : 'none';
+    };
+
+    const navigate = (targetId) => {
+      // sections
+      document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(targetId).classList.add('active');
+      // nav buttons
+      document.querySelectorAll('nav button').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`nav button[data-target="${targetId}"]`).classList.add('active');
+      // header title
+      document.getElementById('header-title').textContent = targetId.charAt(0).toUpperCase() + targetId.slice(1);
+    };
+
+    /* ================= Auth Logic ================= */
+    const authScreen = document.getElementById('auth-screen');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const toRegister = document.getElementById('to-register');
+
+    toRegister.addEventListener('click', () => {
+      if (loginForm.style.display !== 'none') {
+        loginForm.style.display = 'none';
+        registerForm.style.display = 'flex';
+        toRegister.textContent = 'Masuk';
+        document.querySelector('.auth-toggle').childNodes[0].textContent = 'Sudah punya akun? ';
+      } else {
+        registerForm.style.display = 'none';
+        loginForm.style.display = 'flex';
+        toRegister.textContent = 'Daftar';
+        document.querySelector('.auth-toggle').childNodes[0].textContent = 'Belum punya akun? ';
+      }
+    });
+
+    loginForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showLoading(true);
+      try {
+        await auth.signInWithEmailAndPassword(
+          document.getElementById('login-email').value,
+          document.getElementById('login-password').value
+        );
+      } catch (err) {
+        alert(err.message);
+      }
+      showLoading(false);
+    });
+
+    registerForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      showLoading(true);
+      try {
+        await auth.createUserWithEmailAndPassword(
+          document.getElementById('register-email').value,
+          document.getElementById('register-password').value
+        );
+      } catch (err) {
+        alert(err.message);
+      }
+      showLoading(false);
+    });
+
+    document.getElementById('logout').addEventListener('click', () => auth.signOut());
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        authScreen.style.display = 'none';
+        document.getElementById('user-email').textContent = user.email;
+        loadHistory();
+      } else {
+        authScreen.style.display = 'block';
+      }
+    });
+
+    /* ================= Navigation ================= */
+    document.querySelectorAll('nav button').forEach(btn => {
+      btn.addEventListener('click', () => navigate(btn.dataset.target));
+    });
+
+    /* ================= Registration Steps ================= */
+    const progressBars = document.querySelectorAll('#step-progress div');
+    const updateProgress = (index) => {
+      progressBars.forEach((bar,i)=>{
+        bar.classList.toggle('active', i<=index);
+      });
+    };
+
+    document.getElementById('next-1').addEventListener('click', () => moveStep(1));
+    document.getElementById('next-2').addEventListener('click', () => moveStep(2));
+
+    function moveStep(stepIndex){
+      showLoading(true);
+      setTimeout(()=>{
+        document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+        document.getElementById(`step-${stepIndex+1}`).classList.add('active');
+        updateProgress(stepIndex);
+        showLoading(false);
+      },600);
+    }
+
+    /* ================= Submit Registration ================= */
+    document.getElementById('submit-registration').addEventListener('click', async ()=>{
+      const data = {
+        fullName: document.getElementById('full-name').value,
+        nik: document.getElementById('nik').value,
+        passportType: document.getElementById('passport-type').value,
+        office: document.getElementById('office').value,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        uid: auth.currentUser.uid
+      };
+      if(!data.fullName||!data.nik){return alert('Isi semua data!');}
+      showLoading(true);
+      try{
+        const doc = await db.collection('passportRegistrations').add(data);
+        startCountdown(2*60*60); // 2 hours
+        document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+        document.getElementById('confirmation').classList.add('active');
+        updateProgress(3);
+        loadHistory();
+      }catch(err){alert(err.message);} 
+      showLoading(false);
+    });
+
+    /* ================= Countdown ================= */
+    const countdownEl = document.getElementById('countdown');
+    let countdownInterval;
+    function startCountdown(seconds){
+      const end = Date.now() + seconds*1000;
+      localStorage.setItem('paymentEnd', end);
+      if(countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(()=>{
+        const diff = end - Date.now();
+        if(diff<=0){ clearInterval(countdownInterval); countdownEl.textContent='Kedaluwarsa'; return; }
+        const h = Math.floor(diff/1000/3600).toString().padStart(2,'0');
+        const m = Math.floor(diff/1000/60)%60.toString().padStart(2,'0');
+        const s = Math.floor(diff/1000)%60.toString().padStart(2,'0');
+        countdownEl.textContent = `${h}:${m}:${s}`;
+      },1000);
+    }
+    (()=>{ // Restore countdown if exists
+      const paymentEnd = localStorage.getItem('paymentEnd');
+      if(paymentEnd && paymentEnd>Date.now()){
+        document.getElementById('confirmation').classList.add('active');
+        navigate('register');
+        startCountdown(Math.floor((paymentEnd-Date.now())/1000));
+      }
+    })();
+
+    /* ================= History ================= */
+    async function loadHistory(){
+      const list = document.getElementById('history-list');
+      list.innerHTML = '';
+      if(!auth.currentUser) return;
+      const snap = await db.collection('passportRegistrations')
+        .where('uid','==',auth.currentUser.uid).orderBy('createdAt','desc').get();
+      if(snap.empty){ list.innerHTML = '<li>Belum ada data.</li>'; return; }
+      snap.forEach(doc=>{
+        const li = document.createElement('li');
+        li.textContent = `${doc.data().passportType} - ${doc.data().office}`;
+        list.appendChild(li);
+      });
+    }
+  </script>
 </body>
 </html>
