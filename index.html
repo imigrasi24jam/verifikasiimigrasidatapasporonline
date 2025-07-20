@@ -1,73 +1,866 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selamat Datang</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #0099f7, #f11712);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Paspor - Registrasi Paspor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 600px;
-      padding: 30px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 2s ease;
-    }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.2em;
-    }
+        .app-container {
+            max-width: 480px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
 
-    p {
-      font-size: 1.5em;
-      margin-top: 0;
-    }
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
 
-      p {
-        font-size: 1.2em;
-      }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
 
-      .container {
-        padding: 20px;
-      }
-    }
-  </style>
+        /* Progress Bar */
+        .progress-container {
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+            border-radius: 3px;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6c757d;
+        }
+
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .step.active {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Form Steps */
+        .form-step {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: #fff;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-input.error {
+            border-color: #dc3545;
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: #6c757d;
+            border: 2px solid #e9ecef;
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Success Screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 40px;
+        }
+
+        .countdown-timer {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .timer {
+            font-size: 32px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            color: #6c757d;
+        }
+
+        .nav-item.active {
+            color: #667eea;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Login/Register Forms */
+        .auth-form {
+            padding: 20px;
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-toggle {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .auth-toggle button {
+            background: none;
+            border: none;
+            color: #667eea;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .app-container {
+                max-width: 100%;
+            }
+            
+            .bottom-nav {
+                max-width: 100%;
+            }
+        }
+
+        /* Utility Classes */
+        .text-center { text-align: center; }
+        .mb-20 { margin-bottom: 20px; }
+        .mt-20 { margin-top: 20px; }
+        .hidden { display: none; }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Selamat Datang</h1>
-    <p>Dan Selamat Menikmati</p>
-  </div>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <button class="back-btn" onclick="goBack()">←</button>
+            <h1>M-Paspor</h1>
+            <p>Registrasi Paspor Online</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="step-indicator">
+                <div class="step active" id="step1">Data Pribadi</div>
+                <div class="step" id="step2">Dokumen</div>
+                <div class="step" id="step3">Konfirmasi</div>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div class="auth-form active" id="loginForm">
+            <h2 class="text-center mb-20">Masuk ke M-Paspor</h2>
+            <div class="form-group">
+                <label for="loginEmail">Email</label>
+                <input type="email" id="loginEmail" class="form-input" placeholder="Masukkan email Anda">
+            </div>
+            <div class="form-group">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" class="form-input" placeholder="Masukkan password">
+            </div>
+            <button class="btn btn-primary" onclick="login()">Masuk</button>
+            <div class="auth-toggle">
+                <button onclick="toggleAuth()">Belum punya akun? Daftar</button>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="auth-form" id="registerForm">
+            <h2 class="text-center mb-20">Daftar M-Paspor</h2>
+            <div class="form-group">
+                <label for="registerEmail">Email</label>
+                <input type="email" id="registerEmail" class="form-input" placeholder="Masukkan email Anda">
+            </div>
+            <div class="form-group">
+                <label for="registerPassword">Password</label>
+                <input type="password" id="registerPassword" class="form-input" placeholder="Minimal 6 karakter">
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Konfirmasi Password</label>
+                <input type="password" id="confirmPassword" class="form-input" placeholder="Ulangi password">
+            </div>
+            <button class="btn btn-primary" onclick="register()">Daftar</button>
+            <div class="auth-toggle">
+                <button onclick="toggleAuth()">Sudah punya akun? Masuk</button>
+            </div>
+        </div>
+
+        <!-- Step 1: Personal Data -->
+        <div class="form-step active" id="step1Form">
+            <h3 class="mb-20">Data Pribadi</h3>
+            <div class="form-group">
+                <label for="fullName">Nama Lengkap</label>
+                <input type="text" id="fullName" class="form-input" placeholder="Masukkan nama lengkap">
+            </div>
+            <div class="form-group">
+                <label for="nik">NIK</label>
+                <input type="text" id="nik" class="form-input" placeholder="16 digit NIK" maxlength="16">
+            </div>
+            <div class="form-group">
+                <label for="birthPlace">Tempat Lahir</label>
+                <input type="text" id="birthPlace" class="form-input" placeholder="Kota tempat lahir">
+            </div>
+            <div class="form-group">
+                <label for="birthDate">Tanggal Lahir</label>
+                <input type="date" id="birthDate" class="form-input">
+            </div>
+            <div class="form-group">
+                <label for="gender">Jenis Kelamin</label>
+                <select id="gender" class="form-input">
+                    <option value="">Pilih jenis kelamin</option>
+                    <option value="L">Laki-laki</option>
+                    <option value="P">Perempuan</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="address">Alamat</label>
+                <textarea id="address" class="form-input" rows="3" placeholder="Alamat lengkap"></textarea>
+            </div>
+            <button class="btn btn-primary" onclick="nextStep()">Lanjutkan</button>
+        </div>
+
+        <!-- Step 2: Documents -->
+        <div class="form-step" id="step2Form">
+            <h3 class="mb-20">Upload Dokumen</h3>
+            <div class="form-group">
+                <label for="ktpFile">Foto KTP</label>
+                <input type="file" id="ktpFile" class="form-input" accept="image/*">
+                <small class="error-message">Upload foto KTP yang jelas dan terlihat lengkap</small>
+            </div>
+            <div class="form-group">
+                <label for="kkFile">Foto Kartu Keluarga</label>
+                <input type="file" id="kkFile" class="form-input" accept="image/*">
+                <small class="error-message">Upload foto KK yang jelas dan terlihat lengkap</small>
+            </div>
+            <div class="form-group">
+                <label for="photoFile">Foto Diri</label>
+                <input type="file" id="photoFile" class="form-input" accept="image/*">
+                <small class="error-message">Foto diri dengan latar belakang putih, ukuran 3x4 cm</small>
+            </div>
+            <div class="form-group">
+                <label for="passportType">Jenis Paspor</label>
+                <select id="passportType" class="form-input">
+                    <option value="">Pilih jenis paspor</option>
+                    <option value="regular">Paspor Biasa (48 halaman)</option>
+                    <option value="jumbo">Paspor Jumbo (64 halaman)</option>
+                </select>
+            </div>
+            <button class="btn btn-secondary" onclick="prevStep()">Kembali</button>
+            <button class="btn btn-primary" onclick="nextStep()">Lanjutkan</button>
+        </div>
+
+        <!-- Step 3: Confirmation -->
+        <div class="form-step" id="step3Form">
+            <h3 class="mb-20">Konfirmasi Data</h3>
+            <div class="form-group">
+                <label>Nama Lengkap</label>
+                <div class="form-input" id="confirmName" style="background: #f8f9fa;"></div>
+            </div>
+            <div class="form-group">
+                <label>NIK</label>
+                <div class="form-input" id="confirmNik" style="background: #f8f9fa;"></div>
+            </div>
+            <div class="form-group">
+                <label>Jenis Paspor</label>
+                <div class="form-input" id="confirmPassportType" style="background: #f8f9fa;"></div>
+            </div>
+            <div class="form-group">
+                <label>Biaya</label>
+                <div class="form-input" id="confirmCost" style="background: #f8f9fa; font-weight: bold; color: #667eea;"></div>
+            </div>
+            <button class="btn btn-secondary" onclick="prevStep()">Kembali</button>
+            <button class="btn btn-primary" onclick="submitForm()">Kirim Permohonan</button>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="loading" id="loadingScreen">
+            <div class="spinner"></div>
+            <h3>Memproses data...</h3>
+            <p>Mohon tunggu sebentar</p>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="success-screen" id="successScreen">
+            <div class="success-icon">✓</div>
+            <h3>Permohonan Berhasil!</h3>
+            <p>Data Anda telah berhasil dikirim. Silakan lakukan pembayaran dalam waktu:</p>
+            <div class="countdown-timer">
+                <div class="timer" id="countdown">02:00:00</div>
+                <p>Jam : Menit : Detik</p>
+            </div>
+            <p>Setelah pembayaran, paspor akan diproses dalam 3-5 hari kerja.</p>
+            <button class="btn btn-primary" onclick="logout()">Keluar</button>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="showHome()">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-label">Beranda</div>
+            </div>
+            <div class="nav-item" onclick="showRegistration()">
+                <div class="nav-icon">📝</div>
+                <div class="nav-label">Registrasi</div>
+            </div>
+            <div class="nav-item" onclick="showStatus()">
+                <div class="nav-icon">📊</div>
+                <div class="nav-label">Status</div>
+            </div>
+            <div class="nav-item" onclick="showProfile()">
+                <div class="nav-icon">👤</div>
+                <div class="nav-label">Profil</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB--kgqoGqgZ2TUGuZkeNjHYNePRfcrB5w",
+            authDomain: "mtransfer-tl.firebaseapp.com",
+            projectId: "mtransfer-tl",
+            storageBucket: "mtransfer-tl.firebasestorage.app",
+            messagingSenderId: "193702793032",
+            appId: "1:193702793032:web:f3a3f11b6232a35aceed7d",
+            measurementId: "G-0YXS6YTYRR"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // App State
+        let currentStep = 1;
+        let currentUser = null;
+        let countdownInterval = null;
+
+        // Check authentication state
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                showRegistrationForm();
+            } else {
+                showLoginForm();
+            }
+        });
+
+        // Authentication Functions
+        function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Mohon isi email dan password');
+                return;
+            }
+
+            showLoading();
+            auth.signInWithEmailAndPassword(email, password)
+                .then(() => {
+                    hideLoading();
+                })
+                .catch((error) => {
+                    hideLoading();
+                    alert('Login gagal: ' + error.message);
+                });
+        }
+
+        function register() {
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (!email || !password || !confirmPassword) {
+                alert('Mohon isi semua field');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Password tidak cocok');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Password minimal 6 karakter');
+                return;
+            }
+
+            showLoading();
+            auth.createUserWithEmailAndPassword(email, password)
+                .then(() => {
+                    hideLoading();
+                })
+                .catch((error) => {
+                    hideLoading();
+                    alert('Registrasi gagal: ' + error.message);
+                });
+        }
+
+        function logout() {
+            auth.signOut();
+        }
+
+        function toggleAuth() {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            
+            if (loginForm.classList.contains('active')) {
+                loginForm.classList.remove('active');
+                registerForm.classList.add('active');
+            } else {
+                registerForm.classList.remove('active');
+                loginForm.classList.add('active');
+            }
+        }
+
+        // Form Navigation
+        function nextStep() {
+            if (validateCurrentStep()) {
+                if (currentStep < 3) {
+                    currentStep++;
+                    updateProgress();
+                    showCurrentStep();
+                }
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                updateProgress();
+                showCurrentStep();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentStep / 3) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const stepElement = document.getElementById('step' + i);
+                if (i <= currentStep) {
+                    stepElement.classList.add('active');
+                } else {
+                    stepElement.classList.remove('active');
+                }
+            }
+        }
+
+        function showCurrentStep() {
+            // Hide all steps
+            for (let i = 1; i <= 3; i++) {
+                document.getElementById('step' + i + 'Form').classList.remove('active');
+            }
+            
+            // Show current step
+            document.getElementById('step' + currentStep + 'Form').classList.add('active');
+            
+            // Update confirmation data if on step 3
+            if (currentStep === 3) {
+                updateConfirmationData();
+            }
+        }
+
+        function validateCurrentStep() {
+            if (currentStep === 1) {
+                const required = ['fullName', 'nik', 'birthPlace', 'birthDate', 'gender', 'address'];
+                for (let field of required) {
+                    const value = document.getElementById(field).value;
+                    if (!value) {
+                        alert('Mohon lengkapi semua data pribadi');
+                        return false;
+                    }
+                }
+                
+                const nik = document.getElementById('nik').value;
+                if (nik.length !== 16) {
+                    alert('NIK harus 16 digit');
+                    return false;
+                }
+            }
+            
+            if (currentStep === 2) {
+                const required = ['ktpFile', 'kkFile', 'photoFile', 'passportType'];
+                for (let field of required) {
+                    const value = document.getElementById(field).value;
+                    if (!value) {
+                        alert('Mohon upload semua dokumen dan pilih jenis paspor');
+                        return false;
+                    }
+                }
+            }
+            
+            return true;
+        }
+
+        function updateConfirmationData() {
+            document.getElementById('confirmName').textContent = document.getElementById('fullName').value;
+            document.getElementById('confirmNik').textContent = document.getElementById('nik').value;
+            document.getElementById('confirmPassportType').textContent = 
+                document.getElementById('passportType').options[document.getElementById('passportType').selectedIndex].text;
+            
+            const passportType = document.getElementById('passportType').value;
+            const cost = passportType === 'jumbo' ? 'Rp 650.000' : 'Rp 450.000';
+            document.getElementById('confirmCost').textContent = cost;
+        }
+
+        function submitForm() {
+            if (!currentUser) {
+                alert('Silakan login terlebih dahulu');
+                return;
+            }
+
+            showLoading();
+            
+            // Collect form data
+            const formData = {
+                userId: currentUser.uid,
+                fullName: document.getElementById('fullName').value,
+                nik: document.getElementById('nik').value,
+                birthPlace: document.getElementById('birthPlace').value,
+                birthDate: document.getElementById('birthDate').value,
+                gender: document.getElementById('gender').value,
+                address: document.getElementById('address').value,
+                passportType: document.getElementById('passportType').value,
+                status: 'pending',
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            // Save to Firestore
+            db.collection('passport_applications').add(formData)
+                .then((docRef) => {
+                    hideLoading();
+                    showSuccess();
+                    startCountdown();
+                })
+                .catch((error) => {
+                    hideLoading();
+                    alert('Gagal mengirim permohonan: ' + error.message);
+                });
+        }
+
+        function startCountdown() {
+            let timeLeft = 2 * 60 * 60; // 2 hours in seconds
+            
+            countdownInterval = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                document.getElementById('countdown').textContent = 
+                    `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    document.getElementById('countdown').textContent = '00:00:00';
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        // UI Functions
+        function showLoginForm() {
+            hideAllScreens();
+            document.getElementById('loginForm').classList.add('active');
+        }
+
+        function showRegistrationForm() {
+            hideAllScreens();
+            document.getElementById('step1Form').classList.add('active');
+            updateProgress();
+        }
+
+        function showLoading() {
+            hideAllScreens();
+            document.getElementById('loadingScreen').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingScreen').style.display = 'none';
+        }
+
+        function showSuccess() {
+            hideAllScreens();
+            document.getElementById('successScreen').style.display = 'block';
+        }
+
+        function hideAllScreens() {
+            // Hide all forms and screens
+            const elements = [
+                'loginForm', 'registerForm', 'step1Form', 'step2Form', 'step3Form',
+                'loadingScreen', 'successScreen'
+            ];
+            
+            elements.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.classList.remove('active');
+                    element.style.display = 'none';
+                }
+            });
+        }
+
+        // Navigation Functions
+        function showHome() {
+            if (currentUser) {
+                showRegistrationForm();
+            } else {
+                showLoginForm();
+            }
+            updateNavActive(0);
+        }
+
+        function showRegistration() {
+            if (currentUser) {
+                showRegistrationForm();
+            } else {
+                showLoginForm();
+            }
+            updateNavActive(1);
+        }
+
+        function showStatus() {
+            alert('Fitur status permohonan akan segera hadir');
+            updateNavActive(2);
+        }
+
+        function showProfile() {
+            if (currentUser) {
+                alert('Email: ' + currentUser.email);
+            } else {
+                showLoginForm();
+            }
+            updateNavActive(3);
+        }
+
+        function updateNavActive(index) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach((item, i) => {
+                if (i === index) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+
+        function goBack() {
+            if (currentStep > 1) {
+                prevStep();
+            } else if (currentUser) {
+                logout();
+            }
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProgress();
+        });
+    </script>
 </body>
 </html>
