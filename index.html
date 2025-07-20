@@ -292,7 +292,7 @@
           <label>NIK</label>
           <input type="text" id="nik" required />
         </div>
-        <button class="btn" id="next-1">Berikutnya</button>
+        <button type="button" class="btn" id="next-1">Berikutnya</button>
       </div>
 
       <div id="step-2" class="step">
@@ -312,13 +312,13 @@
             <option>Bandung</option>
           </select>
         </div>
-        <button class="btn" id="next-2">Berikutnya</button>
+        <button type="button" class="btn" id="next-2">Berikutnya</button>
       </div>
 
       <div id="step-3" class="step">
         <h3>Tinjau &amp; Kirim</h3>
         <p>Pastikan data sudah benar sebelum mengirim.</p>
-        <button class="btn" id="submit-registration">Kirim Pendaftaran</button>
+        <button type="button" class="btn" id="submit-registration">Kirim Pendaftaran</button>
       </div>
 
       <div id="confirmation" class="step">
@@ -488,7 +488,7 @@
         startCountdown(2*60*60); // 2 hours
         document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
         document.getElementById('confirmation').classList.add('active');
-        updateProgress(3);
+        updateProgress(2);
         loadHistory();
       }catch(err){alert(err.message);} 
       showLoading(false);
@@ -511,7 +511,7 @@
       },1000);
     }
     (()=>{ // Restore countdown if exists
-      const paymentEnd = localStorage.getItem('paymentEnd');
+      const paymentEnd = parseInt(localStorage.getItem('paymentEnd'), 10);
       if(paymentEnd && paymentEnd>Date.now()){
         document.getElementById('confirmation').classList.add('active');
         navigate('register');
