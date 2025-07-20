@@ -1,73 +1,983 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Selamat Datang</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, #0099f7, #f11712);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      text-align: center;
-      overflow: hidden;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M-Paspor - Pendaftaran Paspor Online</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .container {
-      max-width: 600px;
-      padding: 30px;
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-      animation: fadeIn 2s ease;
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            color: #333;
+        }
 
-    h1 {
-      font-size: 3em;
-      margin-bottom: 0.2em;
-    }
+        .container {
+            max-width: 414px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
 
-    p {
-      font-size: 1.5em;
-      margin-top: 0;
-    }
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
 
-    @keyframes fadeIn {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
 
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 2em;
-      }
+        .header .subtitle {
+            font-size: 12px;
+            opacity: 0.9;
+        }
 
-      p {
-        font-size: 1.2em;
-      }
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border-radius: 10px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #1e3c72;
+            font-size: 18px;
+        }
 
-      .container {
-        padding: 20px;
-      }
-    }
-  </style>
+        /* Progress Bar */
+        .progress-container {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6c757d;
+            text-align: center;
+        }
+
+        /* Content */
+        .content {
+            padding: 20px;
+            padding-bottom: 100px;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+            animation: slideIn 0.3s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .step-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #1e3c72;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #495057;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #1e3c72;
+            box-shadow: 0 0 0 3px rgba(30, 60, 114, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(30, 60, 114, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        /* Loading Spinner */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e9ecef;
+            border-top: 4px solid #1e3c72;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Countdown Timer */
+        .countdown-container {
+            background: linear-gradient(135deg, #dc3545 0%, #fd7e14 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .countdown-timer {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 414px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-item {
+            flex: 1;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: #f8f9fa;
+        }
+
+        .nav-item.active {
+            background: #e3f2fd;
+            color: #1e3c72;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-text {
+            font-size: 10px;
+            font-weight: 500;
+        }
+
+        /* Success Screen */
+        .success-screen {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 40px;
+            color: white;
+        }
+
+        /* Login/Register Forms */
+        .auth-container {
+            padding: 40px 20px;
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 24px;
+            color: #1e3c72;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid #e9ecef;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            background: #f8f9fa;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .auth-tab.active {
+            background: #1e3c72;
+            color: white;
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 414px) {
+            .container {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Selamat Datang</h1>
-    <p>Dan Selamat Menikmati</p>
-  </div>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">M-P</div>
+            <h1>M-Paspor</h1>
+            <div class="subtitle">Direktorat Jenderal Imigrasi</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Langkah 1 dari 5</div>
+        </div>
+
+        <!-- Content -->
+        <div class="content">
+            <!-- Loading Screen -->
+            <div class="loading" id="loadingScreen">
+                <div class="spinner"></div>
+                <p>Memproses data Anda...</p>
+            </div>
+
+            <!-- Auth Screen -->
+            <div class="step active" id="authStep">
+                <div class="auth-container">
+                    <h2 class="auth-title">Selamat Datang</h2>
+                    
+                    <div class="auth-tabs">
+                        <div class="auth-tab active" onclick="switchAuthTab('login')">Masuk</div>
+                        <div class="auth-tab" onclick="switchAuthTab('register')">Daftar</div>
+                    </div>
+
+                    <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+                    <!-- Login Form -->
+                    <div id="loginForm">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="loginEmail" placeholder="Masukkan email Anda">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kata Sandi</label>
+                            <input type="password" class="form-input" id="loginPassword" placeholder="Masukkan kata sandi">
+                        </div>
+                        <button class="btn btn-primary" onclick="login()">Masuk</button>
+                    </div>
+
+                    <!-- Register Form -->
+                    <div id="registerForm" style="display: none;">
+                        <div class="form-group">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-input" id="registerName" placeholder="Masukkan nama lengkap">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-input" id="registerEmail" placeholder="Masukkan email Anda">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Kata Sandi</label>
+                            <input type="password" class="form-input" id="registerPassword" placeholder="Minimal 6 karakter">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Konfirmasi Kata Sandi</label>
+                            <input type="password" class="form-input" id="registerPasswordConfirm" placeholder="Ulangi kata sandi">
+                        </div>
+                        <button class="btn btn-primary" onclick="register()">Daftar</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 1: Personal Data -->
+            <div class="step" id="step1">
+                <h2 class="step-title">Data Pribadi</h2>
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" class="form-input" id="fullName" placeholder="Sesuai KTP">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">NIK</label>
+                    <input type="text" class="form-input" id="nik" placeholder="16 digit NIK">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tempat Lahir</label>
+                    <input type="text" class="form-input" id="birthPlace" placeholder="Kota/Kabupaten">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tanggal Lahir</label>
+                    <input type="date" class="form-input" id="birthDate">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jenis Kelamin</label>
+                    <select class="form-select" id="gender">
+                        <option value="">Pilih Jenis Kelamin</option>
+                        <option value="L">Laki-laki</option>
+                        <option value="P">Perempuan</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="nextStep()">Lanjutkan</button>
+            </div>
+
+            <!-- Step 2: Address -->
+            <div class="step" id="step2">
+                <h2 class="step-title">Alamat</h2>
+                <div class="form-group">
+                    <label class="form-label">Alamat Lengkap</label>
+                    <input type="text" class="form-input" id="address" placeholder="Jalan, RT/RW, Kelurahan">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kecamatan</label>
+                    <input type="text" class="form-input" id="district" placeholder="Nama Kecamatan">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kota/Kabupaten</label>
+                    <input type="text" class="form-input" id="city" placeholder="Nama Kota/Kabupaten">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Provinsi</label>
+                    <select class="form-select" id="province">
+                        <option value="">Pilih Provinsi</option>
+                        <option value="DKI Jakarta">DKI Jakarta</option>
+                        <option value="Jawa Barat">Jawa Barat</option>
+                        <option value="Jawa Tengah">Jawa Tengah</option>
+                        <option value="Jawa Timur">Jawa Timur</option>
+                        <option value="Banten">Banten</option>
+                        <option value="Yogyakarta">Yogyakarta</option>
+                        <option value="Bali">Bali</option>
+                        <option value="Sumatera Utara">Sumatera Utara</option>
+                        <option value="Sumatera Barat">Sumatera Barat</option>
+                        <option value="Sumatera Selatan">Sumatera Selatan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kode Pos</label>
+                    <input type="text" class="form-input" id="postalCode" placeholder="5 digit kode pos">
+                </div>
+                <button class="btn btn-primary" onclick="nextStep()">Lanjutkan</button>
+            </div>
+
+            <!-- Step 3: Passport Type -->
+            <div class="step" id="step3">
+                <h2 class="step-title">Jenis Permohonan</h2>
+                <div class="form-group">
+                    <label class="form-label">Jenis Paspor</label>
+                    <select class="form-select" id="passportType">
+                        <option value="">Pilih Jenis Paspor</option>
+                        <option value="biasa">Paspor Biasa (48 halaman)</option>
+                        <option value="jumbo">Paspor Jumbo (24 halaman)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jenis Permohonan</label>
+                    <select class="form-select" id="requestType">
+                        <option value="">Pilih Jenis Permohonan</option>
+                        <option value="baru">Paspor Baru</option>
+                        <option value="ganti">Penggantian Paspor</option>
+                        <option value="perpanjang">Perpanjangan Paspor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Kantor Imigrasi</label>
+                    <select class="form-select" id="immigrationOffice">
+                        <option value="">Pilih Kantor Imigrasi</option>
+                        <option value="Jakarta Pusat">Kantor Imigrasi Jakarta Pusat</option>
+                        <option value="Jakarta Selatan">Kantor Imigrasi Jakarta Selatan</option>
+                        <option value="Jakarta Timur">Kantor Imigrasi Jakarta Timur</option>
+                        <option value="Jakarta Barat">Kantor Imigrasi Jakarta Barat</option>
+                        <option value="Jakarta Utara">Kantor Imigrasi Jakarta Utara</option>
+                        <option value="Bandung">Kantor Imigrasi Bandung</option>
+                        <option value="Surabaya">Kantor Imigrasi Surabaya</option>
+                        <option value="Medan">Kantor Imigrasi Medan</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tanggal Kunjungan</label>
+                    <input type="date" class="form-input" id="visitDate">
+                </div>
+                <button class="btn btn-primary" onclick="nextStep()">Lanjutkan</button>
+            </div>
+
+            <!-- Step 4: Review -->
+            <div class="step" id="step4">
+                <h2 class="step-title">Ringkasan Data</h2>
+                <div id="reviewData"></div>
+                <button class="btn btn-success" onclick="submitApplication()">Kirim Permohonan</button>
+            </div>
+
+            <!-- Step 5: Success -->
+            <div class="step" id="step5">
+                <div class="success-screen">
+                    <div class="success-icon">✓</div>
+                    <h2>Permohonan Berhasil!</h2>
+                    <p>Nomor Registrasi: <strong id="registrationNumber"></strong></p>
+                    
+                    <div class="countdown-container">
+                        <h3>Waktu Pembayaran</h3>
+                        <div class="countdown-timer" id="countdownTimer">02:00:00</div>
+                        <p>Silakan lakukan pembayaran sebelum waktu habis</p>
+                    </div>
+
+                    <div style="margin-top: 20px;">
+                        <p><strong>Biaya:</strong> Rp 355.000</p>
+                        <p><strong>Kantor Imigrasi:</strong> <span id="selectedOffice"></span></p>
+                        <p><strong>Tanggal Kunjungan:</strong> <span id="selectedDate"></span></p>
+                    </div>
+
+                    <button class="btn btn-primary" style="margin-top: 20px;" onclick="downloadReceipt()">Unduh Bukti</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('home')">
+                <div class="nav-icon">🏠</div>
+                <div class="nav-text">Beranda</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('application')">
+                <div class="nav-icon">📝</div>
+                <div class="nav-text">Permohonan</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('status')">
+                <div class="nav-icon">📊</div>
+                <div class="nav-text">Status</div>
+            </div>
+            <div class="nav-item" onclick="switchTab('profile')">
+                <div class="nav-icon">👤</div>
+                <div class="nav-text">Profil</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyB--kgqoGqgZ2TUGuZkeNjHYNePRfcrB5w",
+            authDomain: "mtransfer-tl.firebaseapp.com",
+            projectId: "mtransfer-tl",
+            storageBucket: "mtransfer-tl.firebasestorage.app",
+            messagingSenderId: "193702793032",
+            appId: "1:193702793032:web:f3a3f11b6232a35aceed7d",
+            measurementId: "G-0YXS6YTYRR"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentStep = 0;
+        let currentUser = null;
+        let countdownInterval = null;
+
+        // Auth functions
+        function switchAuthTab(tab) {
+            const loginForm = document.getElementById('loginForm');
+            const registerForm = document.getElementById('registerForm');
+            const tabs = document.querySelectorAll('.auth-tab');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            if (tab === 'login') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+                tabs[0].classList.add('active');
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+                tabs[1].classList.add('active');
+            }
+            
+            hideError();
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('errorMessage').style.display = 'none';
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showError('Harap isi email dan kata sandi');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                currentUser = userCredential.user;
+                hideLoading();
+                goToStep(1);
+            } catch (error) {
+                hideLoading();
+                showError(getErrorMessage(error.code));
+            }
+        }
+
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerPasswordConfirm').value;
+
+            if (!name || !email || !password || !confirmPassword) {
+                showError('Harap isi semua field');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showError('Konfirmasi kata sandi tidak cocok');
+                return;
+            }
+
+            if (password.length < 6) {
+                showError('Kata sandi minimal 6 karakter');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                currentUser = userCredential.user;
+                
+                // Save user profile
+                await db.collection('users').doc(currentUser.uid).set({
+                    name: name,
+                    email: email,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                hideLoading();
+                goToStep(1);
+            } catch (error) {
+                hideLoading();
+                showError(getErrorMessage(error.code));
+            }
+        }
+
+        function getErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/email-already-in-use':
+                    return 'Email sudah terdaftar';
+                case 'auth/weak-password':
+                    return 'Kata sandi terlalu lemah';
+                case 'auth/invalid-email':
+                    return 'Format email tidak valid';
+                case 'auth/user-not-found':
+                    return 'Email tidak terdaftar';
+                case 'auth/wrong-password':
+                    return 'Kata sandi salah';
+                default:
+                    return 'Terjadi kesalahan. Silakan coba lagi.';
+            }
+        }
+
+        // Navigation functions
+        function goToStep(step) {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach(s => s.classList.remove('active'));
+            
+            if (step === 0) {
+                document.getElementById('authStep').classList.add('active');
+            } else {
+                document.getElementById(`step${step}`).classList.add('active');
+            }
+            
+            currentStep = step;
+            updateProgress();
+        }
+
+        function nextStep() {
+            if (validateCurrentStep()) {
+                showLoading();
+                setTimeout(() => {
+                    hideLoading();
+                    if (currentStep < 5) {
+                        goToStep(currentStep + 1);
+                        if (currentStep === 4) {
+                            showReviewData();
+                        }
+                    }
+                }, 1000);
+            }
+        }
+
+        function validateCurrentStep() {
+            const requiredFields = {
+                1: ['fullName', 'nik', 'birthPlace', 'birthDate', 'gender'],
+                2: ['address', 'district', 'city', 'province', 'postalCode'],
+                3: ['passportType', 'requestType', 'immigrationOffice', 'visitDate']
+            };
+
+            if (requiredFields[currentStep]) {
+                for (let field of requiredFields[currentStep]) {
+                    const element = document.getElementById(field);
+                    if (!element.value.trim()) {
+                        alert('Harap isi semua field yang diperlukan');
+                        element.focus();
+                        return false;
+                    }
+                }
+            }
+
+            // Additional validation
+            if (currentStep === 1) {
+                const nik = document.getElementById('nik').value;
+                if (nik.length !== 16) {
+                    alert('NIK harus 16 digit');
+                    return false;
+                }
+            }
+
+            if (currentStep === 2) {
+                const postalCode = document.getElementById('postalCode').value;
+                if (postalCode.length !== 5) {
+                    alert('Kode pos harus 5 digit');
+                    return false;
+                }
+            }
+
+            if (currentStep === 3) {
+                const visitDate = new Date(document.getElementById('visitDate').value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (visitDate <= today) {
+                    alert('Tanggal kunjungan harus di masa depan');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            const progress = (currentStep / 5) * 100;
+            progressFill.style.width = progress + '%';
+            
+            if (currentStep === 0) {
+                progressText.textContent = 'Masuk ke akun Anda';
+            } else {
+                progressText.textContent = `Langkah ${currentStep} dari 5`;
+            }
+        }
+
+        function showReviewData() {
+            const reviewDiv = document.getElementById('reviewData');
+            const data = {
+                'Nama Lengkap': document.getElementById('fullName').value,
+                'NIK': document.getElementById('nik').value,
+                'Tempat, Tanggal Lahir': `${document.getElementById('birthPlace').value}, ${formatDate(document.getElementById('birthDate').value)}`,
+                'Jenis Kelamin': document.getElementById('gender').value === 'L' ? 'Laki-laki' : 'Perempuan',
+                'Alamat': document.getElementById('address').value,
+                'Kecamatan': document.getElementById('district').value,
+                'Kota/Kabupaten': document.getElementById('city').value,
+                'Provinsi': document.getElementById('province').value,
+                'Kode Pos': document.getElementById('postalCode').value,
+                'Jenis Paspor': document.getElementById('passportType').selectedOptions[0].text,
+                'Jenis Permohonan': document.getElementById('requestType').selectedOptions[0].text,
+                'Kantor Imigrasi': document.getElementById('immigrationOffice').selectedOptions[0].text,
+                'Tanggal Kunjungan': formatDate(document.getElementById('visitDate').value)
+            };
+
+            let html = '<div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 20px;">';
+            for (let [key, value] of Object.entries(data)) {
+                html += `<p><strong>${key}:</strong> ${value}</p>`;
+            }
+            html += '</div>';
+
+            reviewDiv.innerHTML = html;
+        }
+
+        async function submitApplication() {
+            showLoading();
+
+            try {
+                const applicationData = {
+                    userId: currentUser.uid,
+                    fullName: document.getElementById('fullName').value,
+                    nik: document.getElementById('nik').value,
+                    birthPlace: document.getElementById('birthPlace').value,
+                    birthDate: document.getElementById('birthDate').value,
+                    gender: document.getElementById('gender').value,
+                    address: document.getElementById('address').value,
+                    district: document.getElementById('district').value,
+                    city: document.getElementById('city').value,
+                    province: document.getElementById('province').value,
+                    postalCode: document.getElementById('postalCode').value,
+                    passportType: document.getElementById('passportType').value,
+                    requestType: document.getElementById('requestType').value,
+                    immigrationOffice: document.getElementById('immigrationOffice').value,
+                    visitDate: document.getElementById('visitDate').value,
+                    status: 'pending_payment',
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                };
+
+                const docRef = await db.collection('passport_applications').add(applicationData);
+                
+                hideLoading();
+                
+                // Generate registration number
+                const registrationNumber = 'MP' + Date.now().toString().slice(-8);
+                document.getElementById('registrationNumber').textContent = registrationNumber;
+                document.getElementById('selectedOffice').textContent = document.getElementById('immigrationOffice').selectedOptions[0].text;
+                document.getElementById('selectedDate').textContent = formatDate(document.getElementById('visitDate').value);
+                
+                goToStep(5);
+                startCountdown();
+                
+            } catch (error) {
+                hideLoading();
+                alert('Terjadi kesalahan saat mengirim permohonan. Silakan coba lagi.');
+                console.error(error);
+            }
+        }
+
+        function startCountdown() {
+            let timeLeft = 2 * 60 * 60; // 2 hours in seconds
+            
+            countdownInterval = setInterval(() => {
+                const hours = Math.floor(timeLeft / 3600);
+                const minutes = Math.floor((timeLeft % 3600) / 60);
+                const seconds = timeLeft % 60;
+                
+                const display = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('countdownTimer').textContent = display;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    alert('Waktu pembayaran habis. Silakan ajukan permohonan baru.');
+                }
+                
+                timeLeft--;
+            }, 1000);
+        }
+
+        function downloadReceipt() {
+            // Create a simple receipt text
+            const receiptData = `
+M-PASPOR - BUKTI PENDAFTARAN
+================================
+
+Nomor Registrasi: ${document.getElementById('registrationNumber').textContent}
+Nama: ${document.getElementById('fullName').value}
+NIK: ${document.getElementById('nik').value}
+Kantor Imigrasi: ${document.getElementById('selectedOffice').textContent}
+Tanggal Kunjungan: ${document.getElementById('selectedDate').textContent}
+Biaya: Rp 355.000
+
+Silakan simpan bukti ini dan bawa saat datang ke kantor imigrasi.
+
+Terima kasih telah menggunakan M-Paspor.
+            `;
+
+            const blob = new Blob([receiptData], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'bukti-pendaftaran-paspor.txt';
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        // Utility functions
+        function showLoading() {
+            document.getElementById('loadingScreen').style.display = 'block';
+            document.querySelector('.content').style.opacity = '0.5';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingScreen').style.display = 'none';
+            document.querySelector('.content').style.opacity = '1';
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            return date.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function switchTab(tab) {
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            // For demo purposes, just show an alert
+            if (tab !== 'home') {
+                alert(`Fitur ${tab} akan segera tersedia`);
+            }
+        }
+
+        // Initialize
+        auth.onAuthStateChanged((user) => {
+            if (user && currentStep === 0) {
+                currentUser = user;
+                goToStep(1);
+            }
+        });
+
+        // Set minimum date for visit date
+        document.addEventListener('DOMContentLoaded', function() {
+            const visitDateInput = document.getElementById('visitDate');
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            visitDateInput.min = tomorrow.toISOString().split('T')[0];
+            
+            updateProgress();
+        });
+    </script>
 </body>
 </html>
